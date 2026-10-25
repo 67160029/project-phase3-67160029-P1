@@ -1,0 +1,811 @@
+{
+  "info": {
+    "_postman_id": "012fcb2a-0be3-4dd0-b50e-a688f0652ca2",
+    "name": "Book Management API — Project Phase 3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56436303",
+    "_collection_link": "https://go.postman.co/collection/56436303-012fcb2a-0be3-4dd0-b50e-a688f0652ca2?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get All Books",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3200/api/books",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3200",
+          "path": [
+            "api",
+            "books"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK (example)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3200/api/books",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3200",
+              "path": [
+                "api",
+                "books"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"title\":\"Clean Code\",\"category\":\"Programming\",\"author\":\"Robert C. Martin\",\"available_copies\":3,\"id\":1,\"published_year\":2008,\"isbn\":\"9780132350884\",\"total_copies\":3}"
+        }
+      ]
+    },
+    {
+      "name": "Get Book by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3200/api/books/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3200",
+          "path": [
+            "api",
+            "books",
+            "1"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK (example)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3200/api/books/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3200",
+              "path": [
+                "api",
+                "books",
+                "1"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"title\":\"Clean Code\",\"category\":\"Programming\",\"author\":\"Robert C. Martin\",\"available_copies\":3,\"id\":1,\"published_year\":2008,\"isbn\":\"9780132350884\",\"total_copies\":3}"
+        }
+      ]
+    },
+    {
+      "name": "Search Books",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3200/api/books/search?q=clean",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3200",
+          "path": [
+            "api",
+            "books",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "clean"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK (example)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3200/api/books/search?q=clean",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3200",
+              "path": [
+                "api",
+                "books",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "clean"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"title\":\"Clean Code\",\"category\":\"Programming\",\"author\":\"Robert C. Martin\",\"available_copies\":3,\"id\":1,\"published_year\":2008,\"isbn\":\"9780132350884\",\"total_copies\":3}"
+        }
+      ]
+    },
+    {
+      "name": "Create Book",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Postman Test Book\",\r\n  \"isbn\": \"9780000000001\",\r\n  \"published_year\": 2024,\r\n  \"total_copies\": 5,\r\n  \"available_copies\": 5,\r\n  \"author_id\": 1,\r\n  \"category_id\": 1\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3200/api/books",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3200",
+          "path": [
+            "api",
+            "books"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "201 Created (example)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Postman Test Book\",\r\n  \"isbn\": \"9780000000001\",\r\n  \"published_year\": 2024,\r\n  \"total_copies\": 5,\r\n  \"available_copies\": 5,\r\n  \"author_id\": 1,\r\n  \"category_id\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3200/api/books",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3200",
+              "path": [
+                "api",
+                "books"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"message\":\"Book created successfully\",\"id\":7}"
+        }
+      ]
+    },
+    {
+      "name": "Update Book",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Postman Test Book\",\r\n  \"isbn\": \"9780000000001\",\r\n  \"published_year\": 2024,\r\n  \"total_copies\": 5,\r\n  \"available_copies\": 5,\r\n  \"author_id\": 1,\r\n  \"category_id\": 1\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3200/api/books/6",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3200",
+          "path": [
+            "api",
+            "books",
+            "6"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK (example)",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Postman Test Book\",\r\n  \"isbn\": \"9780000000001\",\r\n  \"published_year\": 2024,\r\n  \"total_copies\": 5,\r\n  \"available_copies\": 5,\r\n  \"author_id\": 1,\r\n  \"category_id\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3200/api/books/6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3200",
+              "path": [
+                "api",
+                "books",
+                "6"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"message\":\"Book updated successfully\"}"
+        }
+      ]
+    },
+    {
+      "name": "Delete Book",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3200/api/books/6",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3200",
+          "path": [
+            "api",
+            "books",
+            "6"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK (example)",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3200/api/books/6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3200",
+              "path": [
+                "api",
+                "books",
+                "6"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"message\":\"Book deleted successfully\"}"
+        }
+      ]
+    },
+    {
+      "name": "Search Google Books",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3200/api/external/books?q=clean",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3200",
+          "path": [
+            "api",
+            "external",
+            "books"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "clean"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK (example)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3200/api/external/books?q=clean",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3200",
+              "path": [
+                "api",
+                "external",
+                "books"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "clean"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"totalItems\":1,\"externalError\":\"Google Books HTTP 429\",\"warning\":\"Google Books unavailable; using local catalog\",\"items\":[{\"title\":\"Clean Code\",\"category\":\"Programming\",\"author\":\"Robert C. Martin\",\"available_copies\":3,\"id\":1,\"published_year\":2008,\"isbn\":\"9780132350884\",\"total_copies\":3}],\"attempts\":3,\"source\":\"local_fallback\",\"success\":true}"
+        }
+      ]
+    },
+    {
+      "name": "Get Authors",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:3200/api/authors"
+      },
+      "response": [
+        {
+          "name": "200 OK (example)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:3200/api/authors"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"name\":\"Robert C. Martin\",\"email\":\"robert@example.com\",\"id\":1}"
+        }
+      ]
+    },
+    {
+      "name": "Create Author",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:3200/api/authors",
+        "body": {
+          "mode": "raw",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          },
+          "raw": "{\r\n  \"name\": \"New Author\",\r\n  \"email\": \"new.author@example.com\"\r\n}"
+        }
+      },
+      "response": [
+        {
+          "name": "201 Created (example)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "http://localhost:3200/api/authors",
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"name\": \"New Author\",\r\n  \"email\": \"new.author@example.com\"\r\n}"
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"name\":\"New Author\",\"email\":\"new.author@example.com\",\"id\":4}"
+        }
+      ]
+    },
+    {
+      "name": "Get Categories",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:3200/api/categories"
+      },
+      "response": [
+        {
+          "name": "200 OK (example)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:3200/api/categories"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"name\":\"Programming\",\"id\":1}"
+        }
+      ]
+    },
+    {
+      "name": "Create Category",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:3200/api/categories",
+        "body": {
+          "mode": "raw",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          },
+          "raw": "{\r\n  \"name\": \"New Category\"\r\n}"
+        }
+      },
+      "response": [
+        {
+          "name": "201 Created (example)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "http://localhost:3200/api/categories",
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"name\": \"New Category\"\r\n}"
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"name\":\"New Category\",\"id\":4}"
+        }
+      ]
+    },
+    {
+      "name": "Get Members",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:3200/api/members"
+      },
+      "response": [
+        {
+          "name": "200 OK (example)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:3200/api/members"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"name\":\"Somchai Jaidee\",\"email\":\"somchai@example.com\",\"phone\":\"0811111111\",\"id\":1}"
+        }
+      ]
+    },
+    {
+      "name": "Create Member",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:3200/api/members",
+        "body": {
+          "mode": "raw",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          },
+          "raw": "{\r\n  \"name\": \"New Member\",\r\n  \"email\": \"new.member@example.com\",\r\n  \"phone\": \"0899999999\"\r\n}"
+        }
+      },
+      "response": [
+        {
+          "name": "201 Created (example)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "http://localhost:3200/api/members",
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"name\": \"New Member\",\r\n  \"email\": \"new.member@example.com\",\r\n  \"phone\": \"0899999999\"\r\n}"
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"name\":\"New Member\",\"email\":\"new.member@example.com\",\"phone\":\"0899999999\",\"id\":4}"
+        }
+      ]
+    },
+    {
+      "name": "Get Borrowings",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:3200/api/borrowings"
+      },
+      "response": [
+        {
+          "name": "200 OK (example)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:3200/api/borrowings"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"borrowed_at\":\"2026-08-20T10:00:00.000Z\",\"returned_at\":null,\"member\":\"Somchai Jaidee\",\"status\":\"BORROWED\",\"member_id\":1,\"book\":\"Clean Code\",\"book_id\":1,\"id\":1}"
+        }
+      ]
+    },
+    {
+      "name": "Borrow Book",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:3200/api/borrowings",
+        "body": {
+          "mode": "raw",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          },
+          "raw": "{\r\n  \"book_id\": 1,\r\n  \"member_id\": 1\r\n}"
+        }
+      },
+      "response": [
+        {
+          "name": "201 Created (example)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "http://localhost:3200/api/borrowings",
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"book_id\": 1,\r\n  \"member_id\": 1\r\n}"
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"status\":\"BORROWED\",\"book_id\":1,\"id\":4,\"member_id\":1}"
+        }
+      ]
+    },
+    {
+      "name": "Return Book",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": "http://localhost:3200/api/borrowings/1/return"
+      },
+      "response": [
+        {
+          "name": "200 OK (example)",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [],
+            "url": "http://localhost:3200/api/borrowings/1/return"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\"id\":1,\"status\":\"RETURNED\"}"
+        }
+      ]
+    }
+  ]
+}

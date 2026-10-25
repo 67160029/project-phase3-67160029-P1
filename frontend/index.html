@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4f7f6" />
+    <title>คลังหนังสือ | Bookroom</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Bookroom หน้าหลัก">
+          <span class="brand-mark" aria-hidden="true">B</span>
+          <span class="brand-copy"><strong>BOOKROOM</strong><small>LIBRARY MANAGEMENT</small></span>
+        </a>
+        <span class="topbar-label"><span class="topbar-dot"></span> ระบบจัดการห้องสมุด</span>
+      </header>
+
+      <main id="main">
+        <section class="hero" aria-labelledby="page-title">
+          <div class="hero-copy">
+            <p class="hero-kicker"><span>LIBRARY DESK</span><span class="kicker-divider">/</span><span>ระบบจัดการหนังสือ</span></p>
+            <h1 id="page-title">จัดการคลังหนังสือ<br /><span>ได้ในหน้าเดียว</span></h1>
+            <p class="hero-description">ค้นหาหนังสือ ตรวจสอบจำนวนคงเหลือ และเพิ่มรายการใหม่ได้สะดวกจากหน้าจอนี้</p>
+            <div class="hero-tags"><span><i class="tag-dot"></i> Catalog API</span><span><i class="tag-dot tag-dot-gold"></i> Google Books พร้อมข้อมูลสำรอง</span></div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-shelf"></div>
+            <div class="art-book book-a"><span></span></div><div class="art-book book-b"><span></span></div>
+            <div class="art-book book-c"><span></span></div><div class="art-book book-d"><span></span></div>
+            <div class="art-note"><span class="note-mark">✦</span><span>อ่าน · ค้นหา · จัดการ</span></div>
+          </div>
+        </section>
+
+        <div class="content-grid">
+          <section class="panel catalog-panel" aria-labelledby="catalog-title">
+            <div class="panel-heading">
+              <div><p class="eyebrow">YOUR COLLECTION</p><h2 id="catalog-title">รายการหนังสือ</h2></div>
+              <span class="endpoint-chip">GET /api/books</span>
+            </div>
+            <div id="status" class="status-strip" data-state="idle" role="status" aria-live="polite">
+              <span class="status-dot" aria-hidden="true"></span><span class="status-message">พร้อมใช้งาน</span>
+            </div>
+            <form id="search-form" class="search-form">
+              <label class="field-label" for="keyword">ค้นหาจากชื่อหนังสือ ISBN หรือผู้แต่ง</label>
+              <div class="search-controls">
+                <div class="search-input-wrap">
+                  <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.8" /><path d="m16 16 4.2 4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+                  <input id="keyword" name="keyword" type="search" placeholder="ลองค้นหา Clean Code" autocomplete="off" />
+                </div>
+                <button class="button button-primary" type="submit">ค้นหา <span aria-hidden="true">↗</span></button>
+                <button id="show-all" class="button button-light" type="button">ทั้งหมด</button>
+              </div>
+            </form>
+            <section id="books" class="book-grid" aria-label="ผลรายการหนังสือ" aria-live="polite"></section>
+          </section>
+
+          <aside class="panel form-panel" aria-labelledby="form-title">
+            <div class="panel-heading form-heading">
+              <div><p class="eyebrow">NEW ENTRY</p><h2 id="form-title">เพิ่มหนังสือ</h2></div>
+              <span class="add-mark" aria-hidden="true">＋</span>
+            </div>
+            <p class="form-intro">กรอกรายละเอียดหนังสือเพื่อเพิ่มเข้าคลัง</p>
+            <form id="book-form" class="book-form">
+              <label class="form-field field-full"><span>ชื่อหนังสือ <b>*</b></span><input name="title" placeholder="เช่น Clean Code" required /></label>
+              <label class="form-field field-full"><span>ISBN <b>*</b></span><input name="isbn" placeholder="ตัวอย่าง 9780132350884" required /></label>
+              <label class="form-field"><span>ปีที่พิมพ์ <b>*</b></span><input name="published_year" type="number" step="1" placeholder="2024" required /></label>
+              <label class="form-field"><span>จำนวนทั้งหมด <b>*</b></span><input name="total_copies" type="number" min="0" step="1" placeholder="5" required /></label>
+              <label class="form-field"><span>จำนวนที่ว่าง <b>*</b></span><input name="available_copies" type="number" min="0" step="1" placeholder="5" required /></label>
+              <p class="field-hint field-full">จำนวนหนังสือที่ว่างต้องไม่เกินจำนวนทั้งหมด</p>
+              <label class="form-field"><span>Author ID <b>*</b></span><input name="author_id" type="number" min="1" step="1" placeholder="1" required /></label>
+              <label class="form-field"><span>Category ID <b>*</b></span><input name="category_id" type="number" min="1" step="1" placeholder="1" required /></label>
+              <p class="field-hint field-full">ใช้ ID ที่มีอยู่ในฐานข้อมูล เช่น Author 1 และ Category 1</p>
+              <button class="button button-primary submit-button field-full" type="submit">บันทึกเข้าคลัง <span aria-hidden="true">→</span></button>
+            </form>
+            <div class="form-footnote"><span class="footnote-icon" aria-hidden="true">i</span> ระบบจะตรวจข้อมูลก่อนส่งไปยัง API</div>
+          </aside>
+        </div>
+      </main>
+      <footer class="page-footer"><span>BOOKROOM <span class="footer-separator">·</span> ระบบจัดการหนังสือ</span><span>เชื่อมต่อผ่าน API Gateway</span></footer>
+    </div>
+  </body>
+</html>

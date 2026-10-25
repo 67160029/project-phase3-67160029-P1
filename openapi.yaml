@@ -1,0 +1,517 @@
+openapi: 3.0.3
+
+info:
+  title: Book Management API
+  version: 1.0.0
+  description: API สำหรับจัดการข้อมูลหนังสือ ผู้แต่ง และหมวดหมู่ ผ่าน API Gateway
+
+servers:
+  - url: http://localhost:3200
+    description: API Gateway mock
+
+tags:
+  - name: Books
+    description: จัดการข้อมูลหนังสือ
+  - name: Authors
+    description: จัดการข้อมูลผู้เขียน
+  - name: Categories
+    description: จัดการหมวดหมู่หนังสือ
+  - name: Members
+    description: จัดการสมาชิกห้องสมุด
+  - name: Borrowings
+    description: ยืม คืน และตรวจสอบประวัติการยืมหนังสือ
+
+paths:
+  /api/authors:
+    get:
+      tags: [Authors]
+      summary: ดูรายการผู้เขียน
+      responses:
+        "200":
+          description: ดึงรายการผู้เขียนสำเร็จ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Author"
+        "500": { description: อ่านฐานข้อมูลไม่สำเร็จ }
+        "502": { description: Gateway ติดต่อ Catalog Service ไม่สำเร็จ }
+    post:
+      tags: [Authors]
+      summary: เพิ่มผู้เขียน
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthorInput"
+      responses:
+        "201":
+          description: เพิ่มผู้เขียนสำเร็จ
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Author" }
+        "400": { description: ชื่อผู้เขียนไม่ถูกต้อง }
+        "409": { description: อีเมลผู้เขียนซ้ำ }
+        "500": { description: บันทึกฐานข้อมูลไม่สำเร็จ }
+        "502": { description: Gateway ติดต่อ Catalog Service ไม่สำเร็จ }
+
+  /api/categories:
+    get:
+      tags: [Categories]
+      summary: ดูรายการหมวดหมู่
+      responses:
+        "200":
+          description: ดึงรายการหมวดหมู่สำเร็จ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+        "500": { description: อ่านฐานข้อมูลไม่สำเร็จ }
+        "502": { description: Gateway ติดต่อ Catalog Service ไม่สำเร็จ }
+    post:
+      tags: [Categories]
+      summary: เพิ่มหมวดหมู่
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryInput"
+      responses:
+        "201":
+          description: เพิ่มหมวดหมู่สำเร็จ
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Category" }
+        "400": { description: ชื่อหมวดหมู่ไม่ถูกต้อง }
+        "409": { description: มีหมวดหมู่นี้แล้ว }
+        "500": { description: บันทึกฐานข้อมูลไม่สำเร็จ }
+        "502": { description: Gateway ติดต่อ Catalog Service ไม่สำเร็จ }
+
+  /api/members:
+    get:
+      tags: [Members]
+      summary: ดูรายการสมาชิก
+      responses:
+        "200":
+          description: ดึงรายการสมาชิกสำเร็จ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Member"
+        "500": { description: อ่านฐานข้อมูลไม่สำเร็จ }
+        "502": { description: Gateway ติดต่อ Catalog Service ไม่สำเร็จ }
+    post:
+      tags: [Members]
+      summary: ลงทะเบียนสมาชิก
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemberInput"
+      responses:
+        "201":
+          description: เพิ่มสมาชิกสำเร็จ
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Member" }
+        "400": { description: ชื่อหรืออีเมลไม่ถูกต้อง }
+        "409": { description: อีเมลสมาชิกซ้ำ }
+        "500": { description: บันทึกฐานข้อมูลไม่สำเร็จ }
+        "502": { description: Gateway ติดต่อ Catalog Service ไม่สำเร็จ }
+
+  /api/borrowings:
+    get:
+      tags: [Borrowings]
+      summary: ดูประวัติการยืมคืน
+      responses:
+        "200":
+          description: ดึงประวัติสำเร็จ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Borrowing"
+        "500": { description: อ่านฐานข้อมูลไม่สำเร็จ }
+        "502": { description: Gateway ติดต่อ Catalog Service ไม่สำเร็จ }
+    post:
+      tags: [Borrowings]
+      summary: ยืมหนังสือ
+      description: สร้างรายการยืมและลดจำนวนหนังสือที่พร้อมให้ยืมภายใน transaction เดียว
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BorrowingInput"
+      responses:
+        "201":
+          description: บันทึกการยืมสำเร็จ
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BorrowingCreated" }
+        "400": { description: member_id หรือ book_id ไม่ถูกต้อง }
+        "404": { description: ไม่พบสมาชิกหรือหนังสือ }
+        "409": { description: ไม่มีหนังสือพร้อมให้ยืม }
+        "500": { description: บันทึกการยืมไม่สำเร็จ }
+        "502": { description: Gateway ติดต่อ Catalog Service ไม่สำเร็จ }
+
+  /api/borrowings/{id}/return:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    put:
+      tags: [Borrowings]
+      summary: คืนหนังสือ
+      description: เปลี่ยนสถานะรายการยืมและเพิ่มจำนวนหนังสือพร้อมให้ยืมภายใน transaction เดียว
+      responses:
+        "200":
+          description: คืนหนังสือสำเร็จ
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BorrowingStatus" }
+        "400": { description: borrowing ID ไม่ถูกต้อง }
+        "404": { description: ไม่พบรายการยืม }
+        "409": { description: รายการนี้คืนแล้ว }
+        "500": { description: บันทึกการคืนไม่สำเร็จ }
+        "502": { description: Gateway ติดต่อ Catalog Service ไม่สำเร็จ }
+
+  /api/books:
+    get:
+      tags: [Books]
+      summary: ดูรายการหนังสือทั้งหมด
+      responses:
+        "200":
+          description: ดึงรายการหนังสือสำเร็จ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+        "500":
+          description: เกิดข้อผิดพลาดขณะอ่านฐานข้อมูล
+        "502":
+          description: API Gateway ติดต่อ Catalog Service ไม่สำเร็จ
+
+    post:
+      tags: [Books]
+      summary: เพิ่มหนังสือใหม่
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookInput"
+            example:
+              title: Test Book
+              isbn: "9780000000001"
+              published_year: 2024
+              total_copies: 5
+              available_copies: 5
+              author_id: 1
+              category_id: 1
+      responses:
+        "201":
+          description: เพิ่มหนังสือสำเร็จ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Book created successfully
+                  id:
+                    type: integer
+                    example: 7
+        "400":
+          description: ข้อมูลไม่ถูกต้อง หรือ Author ID/Category ID ไม่มีอยู่
+        "409":
+          description: ISBN ซ้ำ
+        "500":
+          description: เกิดข้อผิดพลาดขณะบันทึกฐานข้อมูล
+        "502":
+          description: API Gateway ติดต่อ Catalog Service ไม่สำเร็จ
+
+  /api/external/books:
+    get:
+      tags: [Books]
+      summary: ค้นหาหนังสือจาก Google Books พร้อม Fallback
+      description: ค้นหาผ่าน Book Search Service และใช้ Catalog Service เป็นข้อมูลสำรองเมื่อ Google Books ใช้งานไม่ได้
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          example: clean code
+      responses:
+        "200":
+          description: ค้นหาสำเร็จจาก Google Books หรือ Catalog Service
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExternalBookSearchResult"
+        "400":
+          description: ไม่ได้ระบุคำค้นหา
+        "502":
+          description: Book Search Service หรือ Catalog Service ใช้งานไม่ได้
+
+  /api/books/search:
+    get:
+      tags: [Books]
+      summary: ค้นหาหนังสือใน Catalog Service
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          example: clean
+      responses:
+        "200":
+          description: ค้นหาสำเร็จ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+        "400":
+          description: ไม่ได้ระบุคำค้นหา
+        "500":
+          description: เกิดข้อผิดพลาดขณะค้นหาฐานข้อมูล
+        "502":
+          description: API Gateway ติดต่อ Catalog Service ไม่สำเร็จ
+
+  /api/books/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+
+    get:
+      tags: [Books]
+      summary: ดูรายละเอียดหนังสือตาม ID
+      responses:
+        "200":
+          description: พบหนังสือ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "400":
+          description: Book ID ไม่ถูกต้อง
+        "404":
+          description: ไม่พบหนังสือ
+        "500":
+          description: เกิดข้อผิดพลาดขณะอ่านฐานข้อมูล
+        "502":
+          description: API Gateway ติดต่อ Catalog Service ไม่สำเร็จ
+
+    put:
+      tags: [Books]
+      summary: แก้ไขข้อมูลหนังสือ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookInput"
+      responses:
+        "200":
+          description: แก้ไขข้อมูลสำเร็จ
+        "400":
+          description: ID หรือข้อมูลหนังสือไม่ถูกต้อง หรือ Author ID/Category ID ไม่มีอยู่
+        "404":
+          description: ไม่พบหนังสือ
+        "409":
+          description: ISBN ซ้ำ
+        "500":
+          description: เกิดข้อผิดพลาดขณะแก้ไขฐานข้อมูล
+        "502":
+          description: API Gateway ติดต่อ Catalog Service ไม่สำเร็จ
+
+    delete:
+      tags: [Books]
+      summary: ลบหนังสือ
+      responses:
+        "200":
+          description: ลบหนังสือสำเร็จ
+        "400":
+          description: Book ID ไม่ถูกต้อง
+        "404":
+          description: ไม่พบหนังสือ
+        "500":
+          description: เกิดข้อผิดพลาดขณะลบจากฐานข้อมูล
+        "502":
+          description: API Gateway ติดต่อ Catalog Service ไม่สำเร็จ
+
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        name: { type: string, example: Robert C. Martin }
+        email: { type: string, nullable: true, example: robert@example.com }
+    AuthorInput:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        email: { type: string, nullable: true }
+    Category:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        name: { type: string, example: Programming }
+    CategoryInput:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+    Member:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        name: { type: string, example: Somchai Jaidee }
+        email: { type: string, example: somchai@example.com }
+        phone: { type: string, nullable: true, example: "0811111111" }
+    MemberInput:
+      type: object
+      required: [name, email]
+      properties:
+        name: { type: string }
+        email: { type: string, format: email }
+        phone: { type: string, nullable: true }
+    Borrowing:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        member_id: { type: integer, example: 1 }
+        member: { type: string, example: Somchai Jaidee }
+        book_id: { type: integer, example: 1 }
+        book: { type: string, example: Clean Code }
+        borrowed_at: { type: string, format: date-time }
+        returned_at: { type: string, format: date-time, nullable: true }
+        status: { type: string, enum: [BORROWED, RETURNED] }
+    BorrowingInput:
+      type: object
+      required: [member_id, book_id]
+      properties:
+        member_id: { type: integer, minimum: 1 }
+        book_id: { type: integer, minimum: 1 }
+    BorrowingCreated:
+      type: object
+      properties:
+        id: { type: integer, example: 4 }
+        member_id: { type: integer, example: 1 }
+        book_id: { type: integer, example: 1 }
+        status: { type: string, enum: [BORROWED] }
+    BorrowingStatus:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        status: { type: string, enum: [RETURNED] }
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Clean Code
+        isbn:
+          type: string
+          example: "9780132350884"
+        author:
+          type: string
+          example: Robert C. Martin
+        category:
+          type: string
+          example: Programming
+        published_year:
+          type: integer
+          example: 2008
+        total_copies:
+          type: integer
+          example: 3
+        available_copies:
+          type: integer
+          example: 3
+
+    BookInput:
+      type: object
+      required:
+        - title
+        - isbn
+        - published_year
+        - total_copies
+        - available_copies
+        - author_id
+        - category_id
+      properties:
+        title:
+          type: string
+        isbn:
+          type: string
+        published_year:
+          type: integer
+        total_copies:
+          type: integer
+          minimum: 0
+        available_copies:
+          type: integer
+          minimum: 0
+        author_id:
+          type: integer
+        category_id:
+          type: integer
+
+    ExternalBookSearchResult:
+      type: object
+      required:
+        - success
+        - source
+        - totalItems
+        - items
+      properties:
+        success:
+          type: boolean
+          example: true
+        source:
+          type: string
+          enum: [google_books, local_fallback]
+        warning:
+          type: string
+        attempts:
+          type: integer
+          example: 3
+        externalError:
+          type: string
+        totalItems:
+          type: integer
+        items:
+          type: array
+          items:
+            type: object
+            description: Google Books result or a Book record from Catalog Service
+            additionalProperties: true
